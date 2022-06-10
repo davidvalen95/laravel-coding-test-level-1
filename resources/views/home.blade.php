@@ -27,7 +27,7 @@
         $(document).ready(function () {
             $.ajax({
                 type   : "GET",
-                url    : 'http://ipinfo.io/ip',
+                url    : 'https://ipinfo.io/ip',
                 success: function (data) {
 
                     $("#ip").html("Your IP Address: " + data)
