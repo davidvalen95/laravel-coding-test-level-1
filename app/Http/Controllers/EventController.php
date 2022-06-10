@@ -22,8 +22,12 @@ class EventController extends Controller{
         Cache::set('data','You have entered the event list');
 
         $response = EventModel::handleBasicGet($id, function($builder) use ($isActiveEventOnly){
+            $name = request()->get('name');
             if($isActiveEventOnly){
                 $builder->where('startAt', '<', now())->where('endAt', '>', now());
+            }
+            if($name){
+                $builder->where('name','ilike',"%$name%");
             }
         });
 
