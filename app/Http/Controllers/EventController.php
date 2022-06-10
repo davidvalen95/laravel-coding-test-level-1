@@ -7,13 +7,19 @@ use App\Helper\Helper;
 use App\Models\BaseModel;
 use App\Models\EventModel;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Mailable;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
 use PHPUnit\TextUI\Help;
 
 class EventController extends Controller{
     //
 
 
+
+
     public function get($id = null, $isActiveEventOnly = false){
+        Cache::set('data','You have entered the event list');
 
         $response = EventModel::handleBasicGet($id, function($builder) use ($isActiveEventOnly){
             if($isActiveEventOnly){
@@ -31,6 +37,8 @@ class EventController extends Controller{
     }
 
     public function activeEvents(){
+
+
         return $this->get(null, true);
     }
 
@@ -69,6 +77,13 @@ class EventController extends Controller{
 
             ]);
         });
+        if($response->isSuccess && \request()->method() == "POST"){
+//            $mail = new Mailable();
+//            $mail->subject = "testing";
+//            $mail->to =['email@gmail.com'];
+//            $mail->html("SUccesss new event");
+//            Mail::to("davidvalen95@gmail.com")->send($mail);
+        }
 
         return Helper::hybridResponse($response);
 
